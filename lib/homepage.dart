@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'dart:collection';
 import 'operators.dart';
+import 'components.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  MyHomePageState createState() => new MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   double buttonPadding = 10.0;
 
   String _currentOperation;
@@ -125,6 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
       operands.add(displayValue);
     }
     shortDisplayValue = displayValue.toStringAsPrecision(6);
+    /*
     if (!shortDisplayValue.contains("e")) {
       int index = shortDisplayValue.length-1;
       while (shortDisplayValue[index] == "0" && shortDisplayValue[index-3] != ".") {
@@ -132,6 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       shortDisplayValue = shortDisplayValue.substring(0, index);
     }
+    */
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
@@ -139,79 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: new Center(
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            new Text(
-              '$shortDisplayValue',
-              style: new TextStyle(
-                color: Colors.black,
-                fontSize: 50.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            new Padding(padding: new EdgeInsets.only(bottom: 100.0)),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                boxedButtonCommand(Operators.AC),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonCommand(Operators.NEGATIVE),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonCommand(Operators.PERCENT),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonOperator(Operators.DIVIDE),
-              ],
-            ),
-            new Padding(padding: new EdgeInsets.only(bottom: buttonPadding)),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                boxedButtonOperand(7),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonOperand(8),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonOperand(9),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonOperator(Operators.MULTIPLY),
-              ],
-            ),
-            new Padding(padding: new EdgeInsets.only(bottom: buttonPadding)),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                boxedButtonOperand(4),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonOperand(5),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonOperand(6),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonOperator(Operators.SUBTRACT),
-              ],
-            ),
-            new Padding(padding: new EdgeInsets.only(bottom: buttonPadding)),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                boxedButtonOperand(1),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonOperand(2),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonOperand(3),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonOperator(Operators.ADD),
-              ],
-            ),
-            new Padding(padding: new EdgeInsets.only(bottom: buttonPadding)),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                boxedButtonOperand(0),
-                new Padding(padding: new EdgeInsets.only(right: buttonPadding)),
-                boxedButtonCommand(Operators.DECIMAL),
-                new Padding( padding: new EdgeInsets.only(right: buttonPadding + 25)),
-                boxedWideButtonOperator(Operators.EQUALS),
-              ],
-            ),
-          ],
+          children: renderAllButtons(buttonPadding, '$shortDisplayValue'),
         ),
       ),
     );
@@ -255,7 +186,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new Text(num.toString(),
           style: new TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 35.0,
+            fontSize: Constants.getFontSize(),
           ),
         ),
     );
@@ -267,10 +198,47 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new Text(operator,
           style: new TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 35.0,
+              fontSize: Constants.getFontSize(),
           ),
         ),
     );
+  }
+  List<Widget> renderAllButtons(double padding, String displayValue) {
+    List<Widget> list = new List<Widget>();
+    list.add(new Text(
+      displayValue,
+      style: new TextStyle(
+        color: Colors.black,
+        fontSize: 50.0,
+        fontWeight: FontWeight.bold,
+      ),
+    ));
+    list.add( new Padding(padding: new EdgeInsets.only(bottom: 100.0)));
+    list.add(new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: rowOneChildren(buttonPadding)
+    ));
+    list.add(new Padding(padding: new EdgeInsets.only(bottom: buttonPadding)));
+    list.add(new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: rowTwoChildren(buttonPadding),
+    ));
+    list.add(new Padding(padding: new EdgeInsets.only(bottom: buttonPadding)));
+    list.add(new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: rowThreeChildren(buttonPadding),
+    ));
+    list.add(new Padding(padding: new EdgeInsets.only(bottom: buttonPadding)));
+    list.add(new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: rowFourChildren(buttonPadding),
+    ));
+    list.add(new Padding(padding: new EdgeInsets.only(bottom: buttonPadding)));
+    list.add(new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: rowFiveChildren(buttonPadding),
+    ));
+    return list;
   }
 
   FloatingActionButton buttonOperator(String operator) {
@@ -280,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new Text(operator,
           style: new TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 35.0,
+              fontSize: Constants.getFontSize(),
           ),
         ),
     );
@@ -293,10 +261,52 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new Text(operator,
           style: new TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 35.0,
+              fontSize: Constants.getFontSize(),
           ),
         ),
     );
+  }
+
+  List<Widget> rowOneChildren(double padding) {
+    List<Widget> buttons = new List();
+    buttons.add(boxedButtonCommand(Operators.AC));
+    buttons.add(boxedButtonCommand(Operators.NEGATIVE));
+    buttons.add(boxedButtonCommand(Operators.PERCENT));
+    buttons.add(boxedButtonOperator(Operators.DIVIDE));
+    return Components.genericRow(buttons, padding);
+  }
+
+  List<Widget> rowTwoChildren(double padding) {
+    List<Widget> buttons = new List();
+    buttons.add(boxedButtonOperand(7));
+    buttons.add(boxedButtonOperand(8));
+    buttons.add(boxedButtonOperand(9));
+    buttons.add(boxedButtonOperator(Operators.MULTIPLY));
+    return Components.genericRow(buttons, padding);
+  }
+
+  List<Widget> rowThreeChildren(double padding) {
+    List<Widget> buttons = new List();
+    buttons.add(boxedButtonOperand(4));
+    buttons.add(boxedButtonOperand(5));
+    buttons.add(boxedButtonOperand(6));
+    buttons.add(boxedButtonOperator(Operators.SUBTRACT));
+    return Components.genericRow(buttons, padding);
+  }
+  List<Widget> rowFourChildren(double padding) {
+    List<Widget> buttons = new List();
+    buttons.add(boxedButtonOperand(1));
+    buttons.add(boxedButtonOperand(2));
+    buttons.add(boxedButtonOperand(3));
+    buttons.add(boxedButtonOperator(Operators.ADD));
+    return Components.genericRow(buttons, padding);
+  }
+  List<Widget> rowFiveChildren(double padding) {
+    List<Widget> buttons = new List();
+    buttons.add(boxedButtonOperand(0));
+    buttons.add(boxedButtonCommand(Operators.DECIMAL));
+    buttons.add(boxedWideButtonOperator(Operators.EQUALS));
+    return Components.genericRow(buttons, padding+7);
   }
 }
 

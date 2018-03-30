@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: 'My Calculator Application',
       theme: new ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.blueGrey,
         accentColor: Colors.blueGrey,
       ),
       home: new MyHomePage(title: 'Sean\'s Calculatron'),

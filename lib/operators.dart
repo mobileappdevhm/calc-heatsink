@@ -1,3 +1,10 @@
+class Constants {
+  static const FONT_SIZE = 35.0;
+  static double getFontSize() {
+    return FONT_SIZE;
+  }
+}
+
 class Operators {
   static const NONE = null;
   static const AC = "AC";
