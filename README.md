@@ -1,8 +1,6 @@
 # calculator
 
-A new Flutter project.
+A Basic Calculator for Mobile Application Development
+Author: Sean Wallace
 
-## Getting Started
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
